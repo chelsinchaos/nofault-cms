@@ -1,6 +1,6 @@
-# Contributing to Speedy
+# Contributing to d
 
-First off, thank you for considering contributing to Speedy! Your help is vital to keeping Speedy fast and reliable.
+First off, thank you for considering contributing to NoFault-CMS! Your help is vital to keeping NoFault-CMS fast and reliable.
 
 ## Table of Contents
 
@@ -22,16 +22,16 @@ This project adheres to a Code of Conduct to foster a welcoming and inclusive co
 
 ### Reporting Bugs
 
-If you encounter any bugs while using Speedy, please check the [issues page](https://github.com/yourusername/speedy/issues) first to see if the bug has already been reported. If not, create a new issue with the following details:
+If you encounter any bugs while using NoFault-CMS, please check the [issues page](https://github.com/yourusername/NoFault-CMS/issues) first to see if the bug has already been reported. If not, create a new issue with the following details:
 - **A clear and descriptive title**.
 - **Steps to reproduce the problem**.
 - **Expected and actual behavior**.
-- **Version of Speedy and environment details**.
+- **Version of NoFault-CMS and environment details**.
 
 ### Suggesting Enhancements
 
 We welcome feature requests and suggestions for improvements! If you have an idea:
-1. **Search** the [issues page](https://github.com/yourusername/speedy/issues) to see if someone else has already suggested it.
+1. **Search** the [issues page](https://github.com/yourusername/NoFault-CMS/issues) to see if someone else has already suggested it.
 2. If not, open a new issue with a detailed description of the enhancement, explaining the motivation and potential use cases.
 
 ### Pull Requests
@@ -60,7 +60,7 @@ Please ensure your code adheres to the following standards:
 
 ## License
 
-By contributing, you agree that your contributions will be licensed under the same license as Speedy, the [MIT OSI License] [https://opensource.org/license/MIT]
+By contributing, you agree that your contributions will be licensed under the same license as NoFault-CMS, the [MIT OSI License] [https://opensource.org/license/MIT]
 ---
 
-Thank you for your contributions to Speedy!
+Thank you for your contributions to NoFault-CMS!
