@@ -1,0 +1,17 @@
+fastapi
+jinja2
+aiofiles
+uvicorn
+ipfshttpclient
+sqlalchemy
+sqlcipher3
+cryptography
+feedparser
+requests
+grpcio
+grpcio-tools
+lz4
+django
+djangorestframework
+django-tailwind
+gunicorn
