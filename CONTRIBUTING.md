@@ -1,4 +1,4 @@
-# Contributing to d
+# Contributing to NoFault-CMS
 
 First off, thank you for considering contributing to NoFault-CMS! Your help is vital to keeping NoFault-CMS fast and reliable.
 
