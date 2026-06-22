@@ -1,0 +1,15 @@
+# Tor v3 onion service for the NoFault relay.
+# The relay is reachable ONLY as a .onion; nothing is exposed to the host.
+# After first start, read the generated address from the persisted volume:
+#   docker compose -f deploy/docker-compose.yml exec tor cat /var/lib/tor/nofault/hostname
+
+SocksPort 0
+Log notice stderr
+
+HiddenServiceDir /var/lib/tor/nofault
+HiddenServiceVersion 3
+# Onion port 80 -> relay container's loopback service on 8800.
+HiddenServicePort 80 relay:8800
+
+# Defense in depth: single-hop disabled, client functions off (publish-only node).
+HiddenServiceNonAnonymousMode 0

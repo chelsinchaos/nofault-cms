@@ -1,17 +1,14 @@
-fastapi
-jinja2
-aiofiles
-uvicorn
-ipfshttpclient
-sqlalchemy
-sqlcipher3
-cryptography
-feedparser
-requests
-grpcio
-grpcio-tools
-lz4
-django
-djangorestframework
-django-tailwind
-gunicorn
+# Runtime dependencies, version-pinned for reproducibility and audited clean
+# (pip-audit). NOTE: pinned list, not yet a hash-locked lockfile — hash-locking
+# via pip-compile/uv (+ SBOM per release) is tracked in docs/READINESS.md.
+PyNaCl==1.6.2
+nh3==0.2.22
+markdown-it-py==3.0.0
+Jinja2==3.1.6
+MarkupSafe==3.0.3
+Pillow==12.2.0
+fastapi==0.138.0
+starlette==1.3.1
+uvicorn==0.49.0
+httpx==0.27.2
+socksio==1.0.0

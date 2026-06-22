@@ -1,3 +1,15 @@
+# --- NoFaultCMS ---
+.venv/
+demo-home/
+relay-data/
+*.nfb
+htmlcov/
+.ruff_cache/
+# Deprecated prototype artifacts (removed from the tree; ignore if regenerated)
+myvenv/
+db/venv/
+pysqlcipher3/
+
 # Created by .ignore support plugin (hsz.mobi)
 ### Python template
 # Byte-compiled / optimized / DLL files

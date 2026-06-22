@@ -1,0 +1,90 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nofault-cms"
+version = "0.1.0-alpha"
+description = "Zero-knowledge, anonymity-first publishing system for investigative journalists in contested environments"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { file = "LICENSE" }
+authors = [{ name = "Chelsea Anne McElveen" }]
+keywords = ["journalism", "security", "e2ee", "tor", "censorship-resistance"]
+
+# Runtime dependencies are pinned in requirements.txt (hash-locked in CI).
+# This list is the loose source-of-truth; requirements.txt is the resolved lock.
+dependencies = [
+    "PyNaCl>=1.5,<2",          # libsodium: Ed25519, X25519 sealed box, XChaCha20-Poly1305, Argon2id
+    "nh3>=0.2.17,<0.3",        # ammonia HTML sanitizer (Rust, maintained)
+    "markdown-it-py>=3.0,<4",  # CommonMark rendering (output is always sanitized)
+    "Jinja2>=3.1.4,<4",        # rendering with autoescape ON
+    "Pillow>=12.2,<13",        # media re-encode + metadata strip (>=12.2: CVE-2026-42310/42311)
+    "fastapi>=0.138,<1",       # zero-knowledge relay (pulls patched starlette)
+    "uvicorn>=0.34,<1",        # ASGI server (onion-only bind)
+    "httpx[socks]>=0.27,<0.28",# relay client over Tor SOCKS
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=9.0.3,<10",       # >=9.0.3: CVE-2025-71176
+    "pytest-cov>=6,<8",
+    "ruff>=0.6,<0.7",
+    "mypy>=1.11,<2",
+    "bandit>=1.7,<2",
+    "pip-audit>=2.7,<3",
+]
+
+[project.scripts]
+nofault = "nofault.client.cli:main"
+nofault-relay = "nofault.relay.app:run"
+
+[tool.setuptools.packages.find]
+include = ["nofault*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q --strict-markers"
+markers = [
+    "integration: end-to-end tests that exercise multiple components",
+    "security: invariant tests that must never regress (e.g. no-plaintext-on-seizure)",
+]
+
+[tool.coverage.run]
+branch = true
+source = ["nofault"]
+omit = [
+    "nofault/client/cli.py",     # thin argparse glue, covered by integration/manual
+    "nofault/relay/_factory.py", # uvicorn --factory process entrypoint (deploy-time)
+]
+
+[tool.coverage.report]
+show_missing = true
+# Security-critical core must stay near-total; CLI glue is exercised by integration tests.
+fail_under = 90
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "S", "UP", "W"]
+# S101: asserts are fine in tests; handled per-file below.
+
+[tool.ruff.lint.per-file-ignores]
+# Tests: asserts, hardcoded test passphrases, randomness, long literals, and
+# intentional try/except in the adversarial seizure test.
+"tests/*" = ["S101", "S105", "S106", "S311", "E501", "S110", "S112"]
+# FastAPI's dependency-injection idiom uses callables as parameter defaults.
+"nofault/relay/app.py" = ["B008"]
+# argparse-builder glue: compact one-liners and best-effort try/except.
+"nofault/client/cli.py" = ["E501", "E702", "S110"]
+
+[tool.mypy]
+python_version = "3.11"
+warn_unused_ignores = true
+warn_redundant_casts = true
+ignore_missing_imports = true
+
+[tool.bandit]
+exclude_dirs = ["tests", ".venv"]

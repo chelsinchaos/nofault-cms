@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+    branches: [main, "rebuild/**"]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+      - name: Lint (ruff)
+        run: ruff check nofault tests
+      - name: Type-check (mypy)
+        run: mypy nofault
+      - name: Security lint (bandit)
+        run: bandit -r nofault -c pyproject.toml
+      - name: Tests + coverage (incl. security invariants)
+        run: pytest --cov --cov-report=term-missing
+      - name: Security invariant gate
+        # The no-plaintext-on-seizure invariant must always pass on its own.
+        run: pytest -m security -q
+
+  dependency-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: pip-audit (known-vuln dependencies)
+        run: |
+          python -m pip install --upgrade pip pip-audit
+          pip-audit -r requirements.txt --strict
